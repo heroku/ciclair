@@ -1,0 +1,20 @@
+language: go
+go: 1.9
+services:
+  - docker
+
+jobs:
+  include:
+    - stage: test
+      sudo: required
+      addons:
+        apt:
+          packages:
+            - docker-ce
+      services:
+        - docker
+      install: true # skip go get
+      before_script:
+        - docker build -t dockerfail -f Dockerfile.test .
+        - curl -s -L https://raw.githubusercontent.com/heroku/ciclair/master/bin/run-clair.sh | bash -s -- dockerfail
+        - echo "We should fail before executing this"

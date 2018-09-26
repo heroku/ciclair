@@ -1,0 +1,2 @@
+FROM ubuntu:trusty-20170602
+CMD echo "test"
